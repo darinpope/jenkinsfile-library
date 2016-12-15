@@ -1,3 +1,4 @@
+#!/usr/bin/groovy
 @Library('github.com/darinpope/github-api-global-lib@master')
 node() {
     echo "Starting"
