@@ -1,5 +1,5 @@
 #!/usr/bin/groovy
-@Library('github.com/darinpope/github-api-global-lib@master')
+@Library('github.com/darinpope/github-api-global-lib@master') _
 stage('stage1') {
 node() {
     echo "Starting"
