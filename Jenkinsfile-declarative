@@ -10,7 +10,6 @@ pipeline {
 		stage("Source Code Checkout") {
 			steps {
 				echo 'scc'
-				checkout scm
 			}
 		}
 		stage("SonarQube Scan") {
