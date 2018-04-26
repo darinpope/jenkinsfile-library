@@ -1,0 +1,50 @@
+pipeline {
+	agent any
+	stages {
+		stage("Load Properties") {
+			steps {
+				echo 'load'
+				script {
+				    def props = readProperties(file:'props/foo.properties')
+				    def json = readJSON(file:'test.json') 
+				}
+			}
+		}
+		stage("Source Code Checkout") {
+			steps {
+				echo 'scc'
+			}
+		}
+		stage("SonarQube Scan") {
+			when {
+				branch 'Development'
+			}
+			steps {
+				echo 'scan'
+			}
+		}
+		stage("Build Application") {
+			steps {
+				echo 'build'
+			}
+		}
+		stage("Publish Artifacts") {
+			steps {
+				echo 'publish'
+				//publishArtifacts  strProjectName, strApplicationName, strEnvironment,  strComponentName, strArtifactDirectory,  currentBuild.displayName,  strStatus,  strApplicationProcess, env.SERENA_ACCESS_TOKEN
+			}
+		}
+		stage("Deploy Application") {
+			steps {
+				echo 'deploy'
+				//deployApplication(projectName: strProjectName, serenaAccessToken: env.SERENA_ACCESS_TOKEN)
+			}
+		}
+	}
+	post {
+		always {
+		    echo 'sendNotification'
+			//sendNotification
+		}
+	}
+}
