@@ -4,10 +4,6 @@ pipeline {
 		stage("Load Properties") {
 			steps {
 				echo 'load'
-				script {
-				    def props = readProperties(file:'props/foo.properties')
-				    def json = readJSON(file:'test.json') 
-				}
 			}
 		}
 		stage("Source Code Checkout") {
