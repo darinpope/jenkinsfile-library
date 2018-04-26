@@ -1,3 +1,4 @@
+@Library('shared-starter') _
 pipeline {
 	agent any
 	stages {
@@ -26,21 +27,18 @@ pipeline {
 		}
 		stage("Publish Artifacts") {
 			steps {
-				echo 'publish'
-				//publishArtifacts  strProjectName, strApplicationName, strEnvironment,  strComponentName, strArtifactDirectory,  currentBuild.displayName,  strStatus,  strApplicationProcess, env.SERENA_ACCESS_TOKEN
+				publishArtifacts(name: 'publishArtifacts')
 			}
 		}
 		stage("Deploy Application") {
 			steps {
-				echo 'deploy'
-				//deployApplication(projectName: strProjectName, serenaAccessToken: env.SERENA_ACCESS_TOKEN)
+				deployApplication(name: 'publishArtifacts')
 			}
 		}
 	}
 	post {
 		always {
-		    echo 'sendNotification'
-			//sendNotification
+			sendNotification()
 		}
 	}
 }
