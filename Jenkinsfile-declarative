@@ -5,7 +5,7 @@ pipeline {
 		stage("Prepare Build Environment") {
 			steps {
 				prepareBuildEnvironment()
-				helloWorld(name: 'prepareBuildEnvironment')
+				helloWorld(name: "prepareBuildEnvironment")
 				helloWorldExternal()
 			}
 		}
@@ -29,12 +29,12 @@ pipeline {
 		}
 		stage("Publish Artifacts") {
 			steps {
-				publishArtifacts(name: 'publishArtifacts')
+				publishArtifacts(name: "publishArtifacts")
 			}
 		}
 		stage("Deploy Application") {
 			steps {
-				deployApplication(name: 'publishArtifacts')
+				deployApplication(name: "deployApplication")
 			}
 		}
 	}
