@@ -1,0 +1,4 @@
+@Library('shared-starter') _
+easyPipeline {
+    agentLabel = 'any'
+}
