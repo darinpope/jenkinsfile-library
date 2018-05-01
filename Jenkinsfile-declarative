@@ -4,9 +4,8 @@ pipeline {
 	stages {
 		stage("Prepare Build Environment") {
 			steps {
-				echo 'load'
 				prepareBuildEnvironment()
-				helloWorld()
+				helloWorld(name: 'prepareBuildEnvironment')
 				helloWorldExternal()
 			}
 		}
