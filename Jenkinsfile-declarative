@@ -2,9 +2,12 @@
 pipeline {
 	agent any
 	stages {
-		stage("Load Properties") {
+		stage("Prepare Build Environment") {
 			steps {
 				echo 'load'
+				prepareBuildEnvironment()
+				helloWorld()
+				helloWorldExternal()
 			}
 		}
 		stage("Source Code Checkout") {
