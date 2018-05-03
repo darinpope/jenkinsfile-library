@@ -27,6 +27,11 @@ pipeline {
 				echo 'build'
 			}
 		}
+		stage("Stash") {
+			when { not { branch 'master' }}
+			steps {
+				stash(name:"${env.BUILD_JOB}")
+			}
 		stage("Publish Artifacts") {
 			steps {
 				publishArtifacts(name: "publishArtifacts")
@@ -37,6 +42,13 @@ pipeline {
 				deployApplication(name: "deployApplication")
 			}
 		}
+		stage("Unstash") {
+			when { not { branch 'master' }}
+			steps {
+				unstash(name:"${env.BUILD_JOB}")
+				echo "foobar"
+			}
+		}		
 	}
 	post {
 		always {
