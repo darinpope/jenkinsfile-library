@@ -32,6 +32,7 @@ pipeline {
 			steps {
 				stash(name:"${env.BUILD_JOB}")
 			}
+		}
 		stage("Publish Artifacts") {
 			steps {
 				publishArtifacts(name: "publishArtifacts")
