@@ -2,4 +2,7 @@
 heartQ {
   application = 'heartq'
   applicationId = 'ABC-heartq'
+  microservice = 'heartq-api'
+  emailaddress = 'foo@bar.com'
+  versionNumber = '1.0'
 }
