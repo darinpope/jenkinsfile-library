@@ -1,0 +1,4 @@
+heartQ {
+  application = 'heartq'
+  applicationId = 'ABC-heartq'
+}
