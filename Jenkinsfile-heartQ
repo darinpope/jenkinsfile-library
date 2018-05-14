@@ -1,3 +1,4 @@
+@Library('shared-starter') _
 heartQ {
   application = 'heartq'
   applicationId = 'ABC-heartq'
