@@ -2,7 +2,7 @@
 easyPipeline {
     agentLabel = 'badidea'
     osConfiguration = [
-        os: 'linux',
-        dir: 'build'
+        OS_VERSION: 'linux',
+        DIR_TYPE: 'build'
     ]
 }
