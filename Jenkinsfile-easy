@@ -1,6 +1,6 @@
 @Library('shared-starter') _
 easyPipeline {
-    agentLabel = 'badidea'
+    agentLabel = 'java'
     osConfiguration = [
         OS_VERSION: 'linux',
         DIR_TYPE: 'build'
