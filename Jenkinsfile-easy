@@ -1,4 +1,8 @@
 @Library('shared-starter') _
 easyPipeline {
     agentLabel = 'badidea'
+    osConfiguration = [
+        os: 'linux',
+        dir: 'build'
+    ]
 }
