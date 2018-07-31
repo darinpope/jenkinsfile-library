@@ -17,7 +17,7 @@ pipeline {
 		stage("Only Even Build Number") {
 		    when { expression { return evenOdd() == true }}
 		    steps {
-		        echo 'the build number is even ${env.BUILD_NUMBER}'
+		        echo "the build number is even ${env.BUILD_NUMBER}"
 		    }
 		}
 		stage("SonarQube Scan") {
