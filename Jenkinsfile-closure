@@ -1,8 +1,8 @@
 @Library('shared-starter') _
 closurePipeline {
   foo = "bar"
-  sonar {
-    publishBranch = "master"
-    sing = "toomuch"
-  }
+  sonar = [
+    publishBranch: "master",
+    sing: "toomuch"
+  ]
 }
