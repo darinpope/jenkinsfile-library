@@ -1,3 +1,3 @@
-@Library('shared-starter')
+@Library('shared-starter') _
 javaMaven {
 }
