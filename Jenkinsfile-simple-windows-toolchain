@@ -1,20 +1,20 @@
 pipeline {
-	agent any
-	stages {
-		stage("Build") {
-			steps {
-				bat "echo build"
-			}
-		}
-		stage("SonarQube Scan") {
-			steps {
-				bat "echo sonarqube"
-			}
-		}
-		stage("Push to Artifactory") {
-			steps {
-				bat "echo artifactory"
-			}
-		}
-	}
+  agent any
+  stages {
+    stage("Build") {
+      steps {
+        bat "echo build"
+      }
+    }
+    stage("SonarQube Scan") {
+      steps {
+        bat "echo sonarqube"
+      }
+    }
+    stage("Push to Artifactory") {
+      steps {
+        bat "echo artifactory"
+      }
+    }
+  }
 }
