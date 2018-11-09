@@ -17,5 +17,11 @@ pipeline {
         bat "msbuild /p:ArtifactoryPublish=true"
       }
     }
+    stage('Publish deploy event') {
+      when { branch 'develop' }
+      steps {
+        publishEvent simpleEvent('deployMyCode')
+      }
+    }
   }
 }

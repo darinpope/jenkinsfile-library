@@ -2,6 +2,9 @@
 // https://docs.microsoft.com/en-us/azure/app-service/app-service-deploy-zip
 pipeline {
   agent any
+  triggers {
+    eventTrigger simpleMatch("deployMyCode")
+  }
   stages {
     stage("Get from Artifactory") {
       steps {
