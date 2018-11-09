@@ -7,11 +7,11 @@ pipeline {
         bat "msbuild /t:build"
       }
     }
-    stage("SonarQube Scan") {
-      steps {
-        bat "echo sonarqube"
-      }
-    }
+    //stage("SonarQube Scan") {
+    //  steps {
+    //    bat "echo sonarqube"
+    //  }
+    //}
     stage("Push to Artifactory") {
       steps {
         bat "msbuild /p:ArtifactoryPublish=true"
