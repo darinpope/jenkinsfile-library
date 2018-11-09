@@ -1,0 +1,18 @@
+// https://github.com/jfrog/project-examples/tree/master/msbuild-example
+// https://docs.microsoft.com/en-us/azure/app-service/app-service-deploy-zip
+pipeline {
+  agent any
+  stages {
+    stage("Get from Artifactory") {
+      steps {
+        // Assuming the Artifactory repo is Nuget based
+        bat "jfrog rt nuget restore nuget-virtual --build-name=nuget-build --build-number=1"
+      }
+    }
+    stage("Deploy to API App Service") {
+      steps {
+        bat "az webapp deployment source config-zip --resource-group myResourceGroup --name <app_name> --src clouddrive/<filename>.zip"
+      }
+    }
+  }
+}

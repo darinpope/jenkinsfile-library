@@ -1,9 +1,10 @@
+// https://github.com/jfrog/project-examples/tree/master/msbuild-example
 pipeline {
   agent any
   stages {
     stage("Build") {
       steps {
-        bat "echo build"
+        bat "msbuild /t:build"
       }
     }
     stage("SonarQube Scan") {
@@ -13,7 +14,7 @@ pipeline {
     }
     stage("Push to Artifactory") {
       steps {
-        bat "echo artifactory"
+        bat "msbuild /p:ArtifactoryPublish=true"
       }
     }
   }
