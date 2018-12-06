@@ -1,0 +1,12 @@
+@Library('shared-starter')
+pipeline {
+  agent { label "linux" }
+  triggers {
+    eventTrigger simpleMatch("indigenousDeploy")
+  }
+  stages {
+    stage("triggered deploy") {
+      sh "echo triggered deploy"
+    }
+  }
+}
