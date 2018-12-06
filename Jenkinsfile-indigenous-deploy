@@ -6,7 +6,9 @@ pipeline {
   }
   stages {
     stage("triggered deploy") {
-      sh "echo triggered deploy"
+      steps {
+        sh "echo triggered deploy"
+      }
     }
   }
 }
