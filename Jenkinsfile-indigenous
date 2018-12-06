@@ -1,4 +1,4 @@
-@Library('shared-starter')
+@Library('shared-starter') _
 indigenous {
   notifyEmail = "test@example.com"
 }
