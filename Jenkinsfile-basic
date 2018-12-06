@@ -3,10 +3,12 @@ pipeline {
   agent { label 'linux' }
   stages {
     stage("test") {
-      sh """
-        uname -a
-        java -version
-      """
+      steps {
+        sh """
+          uname -a
+          java -version
+        """
+      }
     }
   }
 }
