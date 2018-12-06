@@ -1,0 +1,12 @@
+@Library('shared-starter') _
+pipeline {
+  agent { label 'linux' }
+  stages {
+    stage("test") {
+      sh """
+        uname -a
+        java -version
+      """
+    }
+  }
+}
