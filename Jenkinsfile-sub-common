@@ -1,0 +1,14 @@
+pipeline {
+    agent any
+
+    triggers {
+        eventTrigger jmespathQuery("event=='helloWorld1' || event=='helloWorld2'")
+    }
+    stages {
+        stage('Example') {
+            steps {
+                echo 'received one of the helloWorld events'
+            }
+        }
+    }
+}
