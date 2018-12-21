@@ -1,0 +1,33 @@
+def event = ''
+def myCoolKey = ''
+pipeline {
+    agent any
+    triggers {
+        eventTrigger jmespathQuery("event=='helloWorld1' || event=='helloWorld2'")
+    }
+    stages {
+        stage('Example') {
+            steps {
+                echo 'received helloWorld'
+                echo "All causes of this build:" + currentBuild.getBuildCauses().toString()
+                echo currentBuild.getBuildCauses()[0].event.toString()
+                echo currentBuild.getBuildCauses()[0].event.event.toString()
+                echo currentBuild.getBuildCauses()[0]._class.toString()
+                script {
+                    if (currentBuild.getBuildCauses()[0]._class == "com.cloudbees.jenkins.plugins.pipeline.events.EventTriggerCause") {
+                        event = currentBuild.getBuildCauses()[0].event.event.toString()
+                        myCoolKey = currentBuild.getBuildCauses()[0].event.myCoolKey.toString()
+                    }
+                }
+            }
+        }
+        stage('myCoolKey') {
+            when {
+                equals expected: "This is my cool value for helloWorld1", actual: "${myCoolKey}"
+            }
+            steps {
+                echo "the myCoolKey value is ${myCoolKey}"
+            }
+        }
+    }
+}
