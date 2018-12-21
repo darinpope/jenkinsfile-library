@@ -1,0 +1,12 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Example') {
+            steps {
+                echo 'sending helloWorld2'
+                publishEvent jsonEvent('{"event":"helloWorld2","myCoolKey":"This is my cool value for helloWorld2"}')
+            }
+        }
+    }
+}
