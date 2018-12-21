@@ -1,0 +1,12 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Example') {
+            steps {
+                echo 'sending helloWorld2'
+                publishEvent simpleEvent('helloWorld2')
+            }
+        }
+    }
+}
