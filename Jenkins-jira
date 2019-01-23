@@ -1,0 +1,18 @@
+@Library('shared-starter') _
+pipeline {
+  agent { label 'linux' }
+  environment {
+    JIRA_CREDENTIALS = credentials("jira-credentials")
+  }
+  stages {
+    stage("test") {
+      steps {
+        sh """
+          uname -a
+          java -version
+        """
+        jiraAddComment(issueId:"TP-3", body:"This is a test for $BUILD_NUMBER")
+      }
+    }
+  }
+}
