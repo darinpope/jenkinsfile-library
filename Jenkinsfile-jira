@@ -11,7 +11,7 @@ pipeline {
           uname -a
           java -version
         """
-        jiraAddComment(issueId:"TP-3", body:"This is a test for $BUILD_NUMBER")
+        jiraAddComment(body:"This is a test for $BUILD_NUMBER")
       }
     }
   }
