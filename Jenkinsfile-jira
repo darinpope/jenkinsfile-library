@@ -5,7 +5,7 @@ pipeline {
     JIRA_CREDENTIALS = credentials("jira-credentials")
   }
   stages {
-    stage("test") {
+    stage("test1") {
       steps {
         sh """
           uname -a
