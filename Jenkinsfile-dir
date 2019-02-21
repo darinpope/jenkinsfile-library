@@ -10,6 +10,13 @@ pipeline {
         dir("default") {
            checkout scm
         }
+      }
+    }
+    stage("server check") {
+      when {
+        expression { return evenOdd() }
+      }
+      steps {
         dir("foobar") {
             sh "git clone https://github.com/darinpope/cjp-demo-environment.git"
         }
