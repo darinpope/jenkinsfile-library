@@ -20,6 +20,12 @@ pipeline {
         dir("foobar") {
             sh "git clone https://github.com/darinpope/cjp-demo-environment.git"
         }
+        fail()
+      }
+      post {
+        failure {
+          echo "failed"
+        }
       }
     }
   }
