@@ -9,11 +9,9 @@ pipeline {
         choice(name: 'application', choices: ['One', 'Two', 'Three'], description: 'Pick an application')
     }
     stages {
-        stage('Parse Event') {
+        stage('deployContentProd') {
             steps {
-                echo currentBuild?.getBuildCauses()[0]?.event?.toString()
-                echo currentBuild?.getBuildCauses()[0]?.event?.application?.toString()
-                echo currentBuild?.getBuildCauses()[0]?.event?.version?.toString()
+                deployContentProd()
             }
         }
     }
