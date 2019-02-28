@@ -1,1 +1,14 @@
+pipeline {
+    agent any
 
+    triggers {
+        eventTrigger jmespathQuery("testing=='hello, world!'")
+    }
+    stages {
+        stage('Example') {
+            steps {
+                echo 'received one of the helloWorld simpleEvents'
+            }
+        }
+    }
+}
