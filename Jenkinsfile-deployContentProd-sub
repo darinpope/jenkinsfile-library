@@ -11,9 +11,9 @@ pipeline {
     stages {
         stage('Parse Event') {
             steps {
-                echo currentBuild.getBuildCauses()[0].event.toString()
-                echo currentBuild.getBuildCauses()[0].event.application.toString()
-                echo currentBuild.getBuildCauses()[0].event.version.toString()
+                echo currentBuild?.getBuildCauses()[0]?.event?.toString()
+                echo currentBuild?.getBuildCauses()[0]?.event?.application?.toString()
+                echo currentBuild?.getBuildCauses()[0]?.event?.version?.toString()
             }
         }
     }
