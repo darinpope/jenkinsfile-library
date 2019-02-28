@@ -1,0 +1,15 @@
+pipeline {
+    agent any
+
+    triggers {
+        eventTrigger jmespathQuery("event=='deploy-content-prod'")
+    }
+    stages {
+        stage('Example') {
+            steps {
+                echo currentBuild.getBuildCauses()[0].event.application.toString()
+                echo currentBuild.getBuildCauses()[0].event.verion.toString()
+            }
+        }
+    }
+}
