@@ -8,7 +8,7 @@ pipeline {
         stage('Example') {
             steps {
                 echo currentBuild.getBuildCauses()[0].event.application.toString()
-                echo currentBuild.getBuildCauses()[0].event.verion.toString()
+                echo currentBuild.getBuildCauses()[0].event.version.toString()
             }
         }
     }
