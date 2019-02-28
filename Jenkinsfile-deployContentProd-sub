@@ -4,8 +4,12 @@ pipeline {
     triggers {
         eventTrigger jmespathQuery("event=='deploy-content-prod'")
     }
+    parameters { 
+        string(name: 'DEPLOY_ENV', defaultValue: 'staging', description: 'What is the deployment environment?') 
+        choice(name: 'CHOICE', choices: ['One', 'Two', 'Three'], description: 'Pick something')
+    }
     stages {
-        stage('Example') {
+        stage('Parse Event') {
             steps {
                 echo currentBuild.getBuildCauses()[0].event.toString()
                 echo currentBuild.getBuildCauses()[0].event.application.toString()
