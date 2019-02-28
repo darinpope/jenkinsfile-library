@@ -1,3 +1,4 @@
+@Library("shared-starter") _
 pipeline {
     agent any
 
