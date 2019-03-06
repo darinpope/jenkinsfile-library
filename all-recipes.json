@@ -34,9 +34,9 @@
     },
     {
       "default": true, 
-      "description": "The minimalistic TrueBlue setup.", 
-      "displayName": "TrueBlue Basic", 
-      "name": "tb-basic", 
+      "description": "The minimalistic Custom setup.", 
+      "displayName": "Custom Basic", 
+      "name": "custom-basic", 
       "plugins": [
         "bluesteel-master", 
         "cloudbees-folders-plus", 
