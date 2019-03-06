@@ -1,7 +1,7 @@
 {
   "data": [
     {
-      "default": true, 
+      "default": false, 
       "description": "The minimalistic setup.", 
       "displayName": "Basic", 
       "name": "basic", 
@@ -31,7 +31,45 @@
         "workflow-aggregator", 
         "workflow-cps-checkpoint"
       ]
-    }, 
+    },
+    {
+      "default": true, 
+      "description": "The minimalistic TrueBlue setup.", 
+      "displayName": "TrueBlue Basic", 
+      "name": "tb-basic", 
+      "plugins": [
+        "bluesteel-master", 
+        "cloudbees-folders-plus", 
+        "cloudbees-jsync-archiver", 
+        "cloudbees-monitoring", 
+        "cloudbees-nodes-plus", 
+        "cloudbees-ssh-slaves", 
+        "cloudbees-support", 
+        "cloudbees-workflow-template", 
+        "credentials-binding", 
+        "email-ext", 
+        "git", 
+        "git-client", 
+        "github-branch-source", 
+        "github-organization-folder", 
+        "infradna-backup", 
+        "ldap", 
+        "mailer", 
+        "operations-center-analytics-reporter", 
+        "operations-center-cloud", 
+        "pipeline-model-definition", 
+        "ssh-credentials", 
+        "wikitext", 
+        "workflow-aggregator", 
+        "workflow-cps-checkpoint",
+        "notification-api",
+        "pipeline-event-step",
+        "operations-center-notification",
+        "devoptics",
+        "active-directory",
+        "cloudbees-jenkins-advisor"
+      ]
+    },
     {
       "default": false, 
       "description": "The essential tools to build, release and deploy Java Web applications including integration with Maven, Gradle and Node JS.", 
