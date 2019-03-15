@@ -1,4 +1,3 @@
-@Library('shared-starter') _
 pipeline {
   agent { label 'linux' }
   stages {
