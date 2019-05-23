@@ -5,6 +5,7 @@ pipeline {
       steps {
         sh """
           ./gradlew clean build
+          ls -l build/libs
         """
       }
     }
