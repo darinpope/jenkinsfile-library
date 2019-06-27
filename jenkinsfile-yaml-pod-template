@@ -4,7 +4,7 @@ pipeline {
     kubernetes {
       label 'yaml-pod'
       defaultContainer 'maven'
-      yamlFile 'KubernetesPod.yaml'
+      yamlFile 'kubernetespod.yaml'
     }
   }
 
