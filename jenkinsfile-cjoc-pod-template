@@ -1,5 +1,5 @@
 pipeline {
-  agent { label 'pod-maven' }
+  agent { label 'cjoc-pod-maven' }
   stages {
     stage('Run maven') {
       steps {
