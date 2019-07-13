@@ -1,0 +1,14 @@
+@Library("shared-starter") _
+pipeline {
+  agent any
+  environment {
+    GITHUB_TOKEN = credentials("github-token")
+  }
+  stages {
+    stage("pr info") {
+      steps {
+        getPullRequestInfo(organization:"darinpope", repository:"marker-file-demo", id: "2")
+      }
+    }
+  }
+}
