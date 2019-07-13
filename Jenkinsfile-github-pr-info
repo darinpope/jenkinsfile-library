@@ -7,7 +7,7 @@ pipeline {
   stages {
     stage("pr info") {
       steps {
-        getPullRequestInfo(organization:"darinpope", repository:"marker-file-demo", id: "2")
+        getPullRequestInfo(owner:"darinpope", repo:"marker-file-demo", pullNumber: "2")
       }
     }
   }
