@@ -5,6 +5,7 @@ pipeline {
       steps {
        container('maven') {
           sh 'mvn -version'
+	  echo 'hello'
         }
       }
     }
