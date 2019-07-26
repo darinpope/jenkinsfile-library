@@ -11,8 +11,4 @@ node {
         // Records plugin-a.txt as a produced artifact.
         archiveArtifacts artifacts: 'plugin-a.txt'
     }
-    stage ('produce') {
-        // Notify DevOptics that this run produced plugin-a.txt.
-        gateProducesArtifact file: 'plugin-a.txt'
     }
-}
