@@ -3,7 +3,7 @@ node {
         checkout scm
     }
     stage ('build') {
-        copyArtifacts projectName: 'jenkinsfile-dopa/master'
+        copyArtifacts projectName: 'devopticsa'
         gateConsumesArtifact file: 'plugin-a.txt'
        sh "git rev-parse HEAD > plugin-b.txt"
 
