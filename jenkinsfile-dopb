@@ -3,22 +3,12 @@ node {
         checkout scm
     }
     stage ('build') {
-        // Copies the artifacts of plugin-a/master (plugin-a.txt) in to this workspace.
-        copyArtifacts projectName: 'plugin-a/master'
-
-        // Notify DevOptics that this run consumed plugin-a.txt.
-        gateConsumesArtifact file: 'plugin-a.txt'
-
-        // Creates a file called plugin-a.txt. Using git rev-parse HEAD
-        // here because it will generate a new artifact when the HEAD ref
-        // commit changes. You could also just echo a timestamp, or something else.
+       copyArtifacts projectName: 'devopticsa/master'
+       gateConsumesArtifact file: 'plugin-a.txt'
         sh "git rev-parse HEAD > plugin-b.txt"
-
-        // Records plugin-b.txt as a produced artifact.
         archiveArtifacts artifacts: 'plugin-b.txt'
     }
     stage ('produce') {
-        // Notify DevOptics that this run produced plugin-b.txt
         gateProducesArtifact file: 'plugin-b.txt'
     }
 }
