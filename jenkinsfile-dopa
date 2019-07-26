@@ -1,0 +1,18 @@
+node {
+    stage ('checkout') {
+        checkout scm
+    }
+    stage ('build') {
+        // Creates a file called plugin-a.txt. Using git rev-parse HEAD
+        // here because it will generate a new artifact when the HEAD ref
+        // commit changes. You could also just echo a timestamp, or something else.
+        sh "git rev-parse HEAD > plugin-a.txt"
+
+        // Records plugin-a.txt as a produced artifact.
+        archiveArtifacts artifacts: 'plugin-a.txt'
+    }
+    stage ('produce') {
+        // Notify DevOptics that this run produced plugin-a.txt.
+        gateProducesArtifact file: 'plugin-a.txt'
+    }
+}
