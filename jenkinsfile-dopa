@@ -12,7 +12,7 @@ node {
         archiveArtifacts artifacts: 'plugin-a.txt'
     }
     stage ('produce') {
-        // Notify DevOptics that this run produced plugin-a.txt.
+        // Notify DevOptics that this run produced plugin-a.txt
         gateProducesArtifact file: 'plugin-a.txt'
     }
 }
