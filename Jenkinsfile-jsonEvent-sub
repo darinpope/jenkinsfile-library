@@ -28,7 +28,7 @@ pipeline {
                 echo "****************************************"
 
                 echo "****************************************"
-                echo "The the value of event from the publishEvent JSON: " + currentBuild?.getBuildCauses()[0]?.event?.event?.toString()
+                echo "The value of event from the publishEvent JSON: " + currentBuild?.getBuildCauses()[0]?.event?.event?.toString()
                 echo "****************************************"
 
                 script {
