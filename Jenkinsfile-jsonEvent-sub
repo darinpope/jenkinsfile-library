@@ -18,11 +18,13 @@ pipeline {
                 echo "****************************************"
 
                 echo "****************************************"
-                echo "The big raw blob: " + currentBuild?.getBuildCauses()?.toString()
+                echo "The full message received:"
+                echo groovy.json.JsonOutput.prettyPrint(currentBuild?.getBuildCauses()?.toString())
                 echo "****************************************"
 
                 echo "****************************************"
-                echo "Just the event part of the big raw blob (note the extra stuff added on from publishEvent): " + currentBuild?.getBuildCauses()[0]?.event?.toString()
+                echo "Just the event part of the full message received (note the new source value added on from the JSON from publishEvent):"
+                echo groovy.json.JsonOutput.prettyPrint(currentBuild?.getBuildCauses()[0]?.event?.toString())
                 echo "****************************************"
 
                 echo "****************************************"
