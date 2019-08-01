@@ -18,15 +18,15 @@ pipeline {
                 echo "****************************************"
 
                 echo "****************************************"
-                echo "The big raw blob:" + currentBuild?.getBuildCauses()?.toString()
+                echo "The big raw blob: " + currentBuild?.getBuildCauses()?.toString()
                 echo "****************************************"
 
                 echo "****************************************"
-                echo "Just the event: " + currentBuild?.getBuildCauses()[0]?.event?.toString()
+                echo "Just the event part of the big raw blob (note the extra stuff added on from publishEvent): " + currentBuild?.getBuildCauses()[0]?.event?.toString()
                 echo "****************************************"
 
                 echo "****************************************"
-                echo "The JSON that was sent to me: " + currentBuild?.getBuildCauses()[0]?.event?.event?.toString()
+                echo "The the value of event from the publishEvent JSON: " + currentBuild?.getBuildCauses()[0]?.event?.event?.toString()
                 echo "****************************************"
 
                 script {
