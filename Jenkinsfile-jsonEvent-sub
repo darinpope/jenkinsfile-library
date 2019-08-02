@@ -1,32 +1,45 @@
 def event = ''
 def myCoolKey = ''
 pipeline {
-    agent any
+    agent none
     triggers {
         eventTrigger jmespathQuery("event=='helloWorld1' || event=='helloWorld2'")
     }
     stages {
         stage('Example') {
-            steps {
-                echo 'received helloWorld'
-                echo "All causes of this build:" + currentBuild.getBuildCauses().toString()
-                echo currentBuild.getBuildCauses()[0].event.toString()
-                echo currentBuild.getBuildCauses()[0].event.event.toString()
-                echo currentBuild.getBuildCauses()[0]._class.toString()
-                script {
-                    if (currentBuild.getBuildCauses()[0]._class == "com.cloudbees.jenkins.plugins.pipeline.events.EventTriggerCause") {
-                        event = currentBuild.getBuildCauses()[0].event.event.toString()
-                        myCoolKey = currentBuild.getBuildCauses()[0].event.myCoolKey.toString()
-                    }
-                }
-            }
-        }
-        stage('myCoolKey') {
+            agent any
             when {
-                equals expected: "This is my cool value for helloWorld1", actual: "${myCoolKey}"
+                triggeredBy "EventTriggerCause"
+                beforeAgent true
             }
             steps {
-                echo "the myCoolKey value is ${myCoolKey}"
+                echo "****************************************"
+                echo "The class type that triggered this run: " + currentBuild?.getBuildCauses()[0]?._class?.toString()
+                echo "****************************************"
+
+                echo "****************************************"
+                echo "The full message received:"
+                echo groovy.json.JsonOutput.prettyPrint(currentBuild?.getBuildCauses()?.toString())
+                echo "****************************************"
+
+                echo "****************************************"
+                echo "Just the event part of the full message received (note the new source value added on from the JSON from publishEvent):"
+                echo groovy.json.JsonOutput.prettyPrint(currentBuild?.getBuildCauses()[0]?.event?.toString())
+                echo "****************************************"
+
+                echo "****************************************"
+                echo "The value of event from the publishEvent JSON: " + currentBuild?.getBuildCauses()[0]?.event?.event?.toString()
+                echo "****************************************"
+
+                script {
+                    event = currentBuild.getBuildCauses()[0]?.event?.event?.toString()
+                    myCoolKey = currentBuild.getBuildCauses()[0]?.event?.myCoolKey?.toString()
+                }
+
+                echo "****************************************"
+                echo "extracted value for event: " + event
+                echo "extracted value for myCoolKey: " + myCoolKey
+                echo "****************************************"
             }
         }
     }

@@ -5,7 +5,7 @@ pipeline {
         stage('Example') {
             steps {
                 echo 'sending helloWorld1'
-                publishEvent jsonEvent('{"event":"helloWorld1","myCoolKey":"This is my cool value for helloWorld1"}')
+                publishEvent(event:jsonEvent('{"event":"helloWorld1","myCoolKey":"This is my cool value for helloWorld1"}'),verbose: true)
             }
         }
     }
