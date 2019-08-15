@@ -7,6 +7,7 @@ pipeline {
   stages {
     stage("pr info") {
       steps {
+        sh "env | sort"
         getPullRequestInfo(owner:"darinpope", repo:"marker-file-demo", pullNumber: "2")
       }
     }
