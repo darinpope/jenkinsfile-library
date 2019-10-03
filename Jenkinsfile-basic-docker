@@ -17,5 +17,13 @@ pipeline {
                 sh 'node --version'
             }
         }
+        stage('Artifactory') {
+            agent {
+                docker { image 'docker.bintray.io/jfrog/jfrog-cli-go:latest' }
+            }
+            steps {
+                sh 'jfrog -v'
+            }
+        }
     }
 }
