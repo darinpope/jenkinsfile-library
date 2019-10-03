@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage'Back-end') {
             agent {
-                docker 
+                docker {
                     image 'maven:3-alpine'
                 }
             }
