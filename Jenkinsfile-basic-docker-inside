@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Back-end') {
             steps {
-                docker.image("maven:3-alpine").inside {
+                docker.image('maven:3-alpine').inside {
                   sh """
                     mvn --version
                     echo "my cool file" > file1.txt
@@ -13,7 +13,7 @@ pipeline {
         }
         stage('Front-end') {
             steps {
-                docker.image("node:7-alpine").inside {
+                docker.image('node:7-alpine').inside {
                   sh """
                     ls -l
                     cat file1.txt
@@ -25,7 +25,7 @@ pipeline {
         }
         stage('Artifactory') {
             steps {
-                docker.image("docker.bintray.io/jfrog/jfrog-cli-go:latest").inside {            
+                docker.image('docker.bintray.io/jfrog/jfrog-cli-go:latest').inside {            
                   sh """
                     ls -l
                     cat file1.txt
