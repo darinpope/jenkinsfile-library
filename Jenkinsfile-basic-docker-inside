@@ -4,21 +4,34 @@ pipeline {
         stage('Back-end') {
             steps {
                 docker.image("maven:3-alpine").inside {
-                  sh 'mvn --version'
+                  sh """
+                    mvn --version
+                    echo "my cool file" > file1.txt
+                  """
                 }
             }
         }
         stage('Front-end') {
             steps {
                 docker.image("node:7-alpine").inside {
-                  sh 'node --version'
+                  sh """
+                    ls -l
+                    cat file1.txt
+                    node --version
+                    echo "my next file" > file2.txt
+                  """
                 }
             }
         }
         stage('Artifactory') {
             steps {
                 docker.image("docker.bintray.io/jfrog/jfrog-cli-go:latest").inside {            
-                  sh 'jfrog -v'
+                  sh """
+                    ls -l
+                    cat file1.txt
+                    cat file2.txt
+                    jfrog -v
+                  """
                 }
             }
         }
