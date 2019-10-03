@@ -19,7 +19,10 @@ pipeline {
         }
         stage('Artifactory') {
             agent {
-                docker { image 'docker.bintray.io/jfrog/jfrog-cli-go:latest' }
+                docker { 
+                    image 'docker.bintray.io/jfrog/jfrog-cli-go:latest'
+                    alwaysPull true
+                }
             }
             steps {
                 sh 'jfrog -v'
