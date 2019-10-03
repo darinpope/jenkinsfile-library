@@ -18,7 +18,8 @@ node("agent1") {
     }
   }
   stage('Artifactory') {
-    docker.image('docker.bintray.io/jfrog/jfrog-cli-go:latest').inside('--pull=always') {            
+    sh "docker pull docker.bintray.io/jfrog/jfrog-cli-go:latest"
+    docker.image('docker.bintray.io/jfrog/jfrog-cli-go:latest').inside() {            
       sh """
         ls -l
         cat file1.txt
