@@ -35,9 +35,9 @@ spec:
   }
   stages {
     stage('Build and push with kaniko') {
-
       steps {
         container(name: 'kaniko', shell: '/busybox/sh') {
+          git 'https://github.com/cb-jeffduska/simple-docker-example.git'
           sh """#!/busybox/sh
                 /kaniko/executor --context `pwd` --destination gcr.io/dpope/hello-kaniko:${env.COMMIT_ID} --cache=true
           """
