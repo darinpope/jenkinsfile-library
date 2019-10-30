@@ -1,0 +1,48 @@
+pipeline {
+  agent none
+  stages {
+    stage('Build and push with kaniko') {
+      agent {
+        kubernetes {
+          label "kaniko"
+          yaml """
+apiVersion: v1
+kind: Pod
+metadata:
+  name: kaniko
+spec:
+  containers:
+  - name: kaniko
+    image: gcr.io/kaniko-project/executor:debug-v0.10.0
+    imagePullPolicy: Always
+    command:
+    - /busybox/cat
+    tty: true
+    volumeMounts:
+      - name: jenkins-docker-cfg
+        mountPath: /kaniko/.docker
+  volumes:
+  - name: jenkins-docker-cfg
+    projected:
+      sources:
+      - secret:
+          name: docker-credentials
+          items:
+            - key: .dockerconfigjson
+              path: config.json
+"""              
+        }
+      }
+      environment {
+        PATH = "/busybox:/kaniko:$PATH"
+      }
+      steps {
+        container(name: 'kaniko', shell: '/busybox/sh') {
+          sh """#!/busybox/sh
+                /kaniko/executor --context `pwd` --destination gcr.io/dpope/hello-kaniko:${env.COMMIT_ID} --cache=true
+          """
+        }
+      }
+    }
+  }
+}
