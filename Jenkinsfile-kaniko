@@ -6,27 +6,28 @@ pipeline {
 apiVersion: v1
 kind: Pod
 metadata:
-name: kaniko
+  name: kaniko
 spec:
-containers:
-- name: kaniko
-image: gcr.io/kaniko-project/executor:debug-v0.10.0
-imagePullPolicy: Always
-command:
-- /busybox/cat
-tty: true
-volumeMounts:
+  serviceAccountName: cjd
+  containers:
+  - name: kaniko
+    image: gcr.io/kaniko-project/executor:debug-v0.10.0
+    imagePullPolicy: Always
+    command:
+    - /busybox/cat
+    tty: true
+    volumeMounts:
+      - name: jenkins-docker-cfg
+        mountPath: /kaniko/.docker
+  volumes:
   - name: jenkins-docker-cfg
-    mountPath: /kaniko/.docker
-volumes:
-- name: jenkins-docker-cfg
-projected:
-  sources:
-  - secret:
-      name: docker-credentials
-      items:
-        - key: .dockerconfigjson
-          path: config.json
+    projected:
+      sources:
+      - secret:
+          name: docker-credentials
+          items:
+            - key: .dockerconfigjson
+              path: config.json
 """              
     }
   }
