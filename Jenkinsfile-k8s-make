@@ -19,8 +19,10 @@ spec:
     stages {
         stage("first") {
             steps {
-                container('gcc') {
-                    sh 'make'
+                container("gcc") {
+                    sh """
+                        make
+                    """
                 }
             }
         }
