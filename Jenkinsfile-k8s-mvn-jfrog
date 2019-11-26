@@ -26,7 +26,7 @@ spec:
             steps {
                 container("maven") {
                     sh """
-                      mvn -version
+                      mvn --version
                     """
                 }
             }
@@ -35,7 +35,7 @@ spec:
             steps {
                 container("jfrog") {
                     sh """
-                      jfrog -v
+                      jfrog --version
                     """
                 }
             }
