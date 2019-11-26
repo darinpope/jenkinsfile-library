@@ -21,7 +21,7 @@ spec:
             steps {
                 container("gcc") {
                     sh """
-                        make
+                        make --version
                     """
                 }
             }
