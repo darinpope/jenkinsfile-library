@@ -22,6 +22,7 @@ spec:
                 container("gcc") {
                     sh """
                         make --version
+                        gcc --version
                     """
                 }
             }
