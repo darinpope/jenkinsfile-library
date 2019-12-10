@@ -43,7 +43,7 @@ spec:
       steps {
         container("buildah") {
           sh """
-            buildah bud -t ${props["image"]}:${props["baseTag"] .
+            echo "hello"
           """
         }
       }
