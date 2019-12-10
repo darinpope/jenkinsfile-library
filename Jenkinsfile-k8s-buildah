@@ -44,9 +44,21 @@ spec:
         container("buildah") {
           sh """
             buildah bud -t ${props["image"]}:${props["baseTag"]} .
-            buildah tag ${props["image"]}:${props["baseTag"]} ${props["image"]}:${props["extraTag"]}
           """
         }
+      }
+    }
+    stage("Extra Tag") {
+      when {
+        not {
+          expression { return null != props["extraTag"]}
+        }
+      }
+      steps {
+        container("buildah") {
+          sh """
+            buildah tag ${props["image"]}:${props["baseTag"]} ${props["image"]}:${props["extraTag"]}
+          """
       }
     }
   }
