@@ -22,6 +22,10 @@ spec:
 """              
     }
   }
+  options {
+    buildDiscarder(logRotator(numToKeepStr: '3'))
+    durabilityHint('PERFORMANCE_OPTIMIZED')
+  }
   stages {
     stage('Build with Buildah') {
       steps {
