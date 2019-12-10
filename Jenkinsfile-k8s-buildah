@@ -22,7 +22,7 @@ spec:
       steps {
         container("buildah") {
           sh """
-            buildah bud -t foo:bar .
+            buildah bud --isolation chroot -t foo:bar .
           """
         }
       }
