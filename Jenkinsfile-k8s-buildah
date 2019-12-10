@@ -1,0 +1,31 @@
+pipeline {
+  agent {
+    kubernetes {
+      label "buildah"
+      yaml """
+apiVersion: v1
+kind: Pod
+metadata:
+  name: buildah
+spec:
+  containers:
+  - name: buildah
+    image: quay.io/buildah/stable:v1.11.4
+    command:
+    - cat
+    tty: true
+"""              
+    }
+  }
+  stages {
+    stage('Build with Buildah') {
+      steps {
+        container("buildah") {
+          sh """
+            buildah bud -t foo:bar .
+          """
+        }
+      }
+    }
+  }
+}
