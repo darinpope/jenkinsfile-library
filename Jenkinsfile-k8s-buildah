@@ -44,7 +44,7 @@ spec:
         container("buildah") {
           sh """
             buildah bud -t ${props["image"]}:${props["baseTag"]} .
-            buildah tag ${props["image"]} ${props["extraTags"]}
+            buildah tag ${props["image"]}:${props["baseTag"]} ${props["extraTags"]}
           """
         }
       }
