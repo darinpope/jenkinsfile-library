@@ -43,7 +43,8 @@ spec:
       steps {
         container("buildah") {
           sh """
-            buildah bud -t ${props["image"]}:${props["tag"]} .
+            buildah bud -t ${props["image"]}:latest .
+            buildah tag ${props["image"]} ${props["tags"]}
           """
         }
       }
