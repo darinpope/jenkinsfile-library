@@ -50,9 +50,7 @@ spec:
     }
     stage("Extra Tag") {
       when {
-        not {
-          expression { return null != props["extraTag"] }
-        }
+        expression { return null != props["extraTag"] }
       }
       steps {
         container("buildah") {
