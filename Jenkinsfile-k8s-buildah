@@ -51,7 +51,7 @@ spec:
     stage("Extra Tag") {
       when {
         not {
-          expression { return null != props["extraTag"]}
+          expression { return null != props["extraTag"] }
         }
       }
       steps {
@@ -59,6 +59,7 @@ spec:
           sh """
             buildah tag ${props["image"]}:${props["baseTag"]} ${props["image"]}:${props["extraTag"]}
           """
+        }
       }
     }
   }
