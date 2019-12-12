@@ -67,7 +67,7 @@ spec:
         }
       }
     }
-    stage("build") {
+    stage("deploy") {
       steps {
         container("jfrog") {
           sh """
