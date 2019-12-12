@@ -37,9 +37,9 @@ spec:
     stage("build") {
       steps {
         container("maven") {
-            sh """
-              mvn --version
-            """
+          sh """
+            mvn --version
+          """
         }            
       }
     }
@@ -70,9 +70,9 @@ spec:
     stage("build") {
       steps {
         container("jfrog") {
-            sh """
-              jfrog --version
-            """
+          sh """
+            jfrog --version
+          """
         }
       }
     }
