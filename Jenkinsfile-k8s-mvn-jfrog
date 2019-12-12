@@ -1,5 +1,5 @@
 pipeline {
-    agent {
+  agent {
     kubernetes {
       label 'mvn-jfrog'
       defaultContainer 'jnlp'
@@ -9,7 +9,7 @@ kind: Pod
 spec:
   containers:
   - name: maven
-    image: maven:3.6.2-jdk-8
+    image: maven:3.6.3-jdk-8
     command:
     - cat
     tty: true
@@ -21,24 +21,72 @@ spec:
 """
     }
   }
-    stages {
+  stages {
+    stage("build parent") {
+      stages {
+        stage("pre-build") {
+          when {
+            expression { return fileExists('jenkins/preBuild.sh') }
+          }
+          steps {
+            sh """
+              ./jenkins/preBuild.sh
+            """
+          }
+        }
         stage("build") {
-            steps {
-                container("maven") {
-                    sh """
-                      mvn --version
-                    """
-                }
-            }
+          steps {
+            container("maven") {
+                sh """
+                  mvn --version
+                """
+            }            
+          }
         }
-        stage("deploy") {
-            steps {
-                container("jfrog") {
-                    sh """
-                      jfrog --version
-                    """
-                }
-            }
+        stage("post-build") {
+          when {
+            expression { return fileExists('jenkins/postBuild.sh') }
+          }
+          steps {
+            sh """
+              ./jenkins/postBuild.sh
+            """
+          }
         }
+      }
     }
+    stage("deploy parent") {
+      stages {
+        stage("pre-deploy") {
+          when {
+            expression { return fileExists('jenkins/preDeploy.sh') }
+          }
+          steps {
+            sh """
+              ./jenkins/preDeploy.sh
+            """
+          }
+        }
+        stage("build") {
+          steps {
+            container("jfrog") {
+                sh """
+                  jfrog --version
+                """
+            }
+          }
+        }
+        stage("post-deploy") {
+          when {
+            expression { return fileExists('jenkins/postDeploy.sh') }
+          }
+          steps {
+            sh """
+              ./jenkins/postDeploy.sh
+            """            
+          }
+        }
+      }
+    }
+  }
 }
