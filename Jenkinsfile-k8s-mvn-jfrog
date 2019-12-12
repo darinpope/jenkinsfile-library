@@ -27,9 +27,11 @@ spec:
         expression { return fileExists('jenkins/preBuild.sh') }
       }
       steps {
-        sh """
-          ./jenkins/preBuild.sh
-        """
+        container("maven") {
+          sh """
+            ./jenkins/preBuild.sh
+          """
+        }
       }
     }
     stage("build") {
@@ -46,9 +48,11 @@ spec:
         expression { return fileExists('jenkins/postBuild.sh') }
       }
       steps {
-        sh """
-          ./jenkins/postBuild.sh
-        """
+        container("maven") {
+          sh """
+            ./jenkins/postBuild.sh
+          """
+        }
       }
     }
     stage("pre-deploy") {
@@ -56,9 +60,11 @@ spec:
         expression { return fileExists('jenkins/preDeploy.sh') }
       }
       steps {
-        sh """
-          ./jenkins/preDeploy.sh
-        """
+        container("jfrog") {
+          sh """
+            ./jenkins/preDeploy.sh
+          """
+        }
       }
     }
     stage("build") {
@@ -75,9 +81,11 @@ spec:
         expression { return fileExists('jenkins/postDeploy.sh') }
       }
       steps {
-        sh """
-          ./jenkins/postDeploy.sh
-        """            
+        container("jfrog") {
+          sh """
+            ./jenkins/postDeploy.sh
+          """
+        }
       }
     }
   }
