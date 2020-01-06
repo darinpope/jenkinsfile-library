@@ -1,10 +1,16 @@
 def event = ''
 def myCoolKey = ''
 pipeline {
-    agent {
-        kubernetes {
-            label 'sub'
-            yaml """
+  agent none
+  triggers {
+        eventTrigger jmespathQuery("event=='helloWorld'")
+    }
+    stages {
+        stage('Example') {
+            agent {
+                kubernetes {
+                    label 'sub'
+                    yaml """
 apiVersion: v1
 kind: Pod
 spec:
@@ -17,14 +23,7 @@ spec:
       effect: NoSchedule
 """
         }
-  }
-  triggers {
-        eventTrigger jmespathQuery("event=='helloWorld'")
-    }
-    stages {
-        stage('Example') {
-            agent any
-            when {
+  }            when {
                 triggeredBy "EventTriggerCause"
                 beforeAgent true
             }
