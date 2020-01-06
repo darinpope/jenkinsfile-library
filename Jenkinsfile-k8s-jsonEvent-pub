@@ -1,6 +1,20 @@
 pipeline {
-    agent any
-
+    agent {
+        kubernetes {
+            label 'pub'
+            yaml """
+apiVersion: v1
+kind: Pod
+spec:
+  containers:
+  - name: jnlp
+    image: jenkins/jnlp-slave:3.36-1-alpine
+    command:
+    - cat
+    tty: true
+"""
+        }
+  }
     stages {
         stage('Example') {
             steps {
