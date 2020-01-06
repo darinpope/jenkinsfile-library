@@ -1,8 +1,24 @@
 def event = ''
 def myCoolKey = ''
 pipeline {
-    agent none
-    triggers {
+    agent {
+        kubernetes {
+            label 'sub'
+            yaml """
+apiVersion: v1
+kind: Pod
+spec:
+  nodeSelector:
+    partition: regular-agents
+  tolerations:
+    - key: partition
+      operator: Equal
+      value: regular-agents
+      effect: NoSchedule
+"""
+        }
+  }
+  triggers {
         eventTrigger jmespathQuery("event=='helloWorld'")
     }
     stages {
