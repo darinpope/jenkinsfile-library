@@ -12,6 +12,13 @@ spec:
     command:
     - cat
     tty: true
+  nodeSelector:
+    partition: regular-agents
+  tolerations:
+    - key: partition
+      operator: Equal
+      value: regular-agents
+      effect: NoSchedule
 """
         }
   }
