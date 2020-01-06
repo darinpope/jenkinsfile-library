@@ -22,8 +22,9 @@ spec:
       value: regular-agents
       effect: NoSchedule
 """
-        }
-  }            when {
+                }
+            }            
+            when {
                 triggeredBy "EventTriggerCause"
                 beforeAgent true
             }
