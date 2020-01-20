@@ -1,0 +1,31 @@
+@Library("shared-starter")
+pipeline {
+    agent {
+    kubernetes {
+      label 'make'
+      yaml """
+apiVersion: v1
+kind: Pod
+spec:
+  containers:
+  - name: gcc
+    image: gcc:8.1.0
+    command:
+    - cat
+    tty: true
+"""
+    }
+  }
+    stages {
+        stage("first") {
+            steps {
+                container("gcc") {
+                    sh """
+                        make --version
+                        gcc --version
+                    """
+                }
+            }
+        }
+    }
+}
