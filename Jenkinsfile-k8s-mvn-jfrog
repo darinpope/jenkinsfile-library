@@ -2,7 +2,6 @@ pipeline {
   agent {
     kubernetes {
       label 'mvn-jfrog'
-      defaultContainer 'jnlp'
       yaml """
 apiVersion: v1
 kind: Pod
