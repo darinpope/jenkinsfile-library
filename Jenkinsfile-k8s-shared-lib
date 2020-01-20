@@ -24,6 +24,7 @@ spec:
                         make --version
                         gcc --version
                     """
+                    helloWorld(name: "bar")
                 }
             }
         }
