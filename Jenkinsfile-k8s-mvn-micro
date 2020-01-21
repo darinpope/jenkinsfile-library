@@ -68,7 +68,7 @@ spec:
     stage("deploy") {
       steps {
         container("maven") {
-          createArtifactoryMavenSettingsFile()
+          createArtifactoryMavenSettingsFile(id: "artifactory-lib-snapshots")
           sh """
             sleep 300
             mvn -e -s artifactory-settings.xml jar:jar deploy:deploy
