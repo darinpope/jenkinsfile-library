@@ -67,7 +67,7 @@ spec:
       steps {
         container("maven") {
           sh """
-            mvn -e jar:jar deploy:deploy
+            mvn -e -s artifactory-settings.xml jar:jar deploy:deploy
           """
         }            
       }
