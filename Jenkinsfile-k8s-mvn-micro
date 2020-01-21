@@ -49,5 +49,23 @@ spec:
         }
       }
     }
+    stage("test") {
+      steps {
+        container("maven") {
+          sh """
+            mvn test
+          """
+        }            
+      }
+    }
+    stage("deploy") {
+      steps {
+        container("maven") {
+          sh """
+            mvn deploy:deploy
+          """
+        }            
+      }
+    }
   }
 }
