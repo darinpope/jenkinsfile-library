@@ -19,6 +19,9 @@ spec:
   environment {
     ARTIFACTORY_MAVEN=credentials("artifactory-maven")
   }
+  options {
+    durabilityHint('PERFORMANCE_OPTIMIZED')
+  }
   stages {
     stage("pre-build") {
       when {
