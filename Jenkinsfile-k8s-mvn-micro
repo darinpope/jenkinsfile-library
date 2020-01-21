@@ -35,7 +35,6 @@ spec:
     stage("build") {
       steps {
         container("maven") {
-          createArtifactoryMavenSettingsFile()
           sh """
             mvn clean install -DskipTests=true
           """
@@ -66,6 +65,7 @@ spec:
     stage("deploy") {
       steps {
         container("maven") {
+          createArtifactoryMavenSettingsFile()
           sh """
             mvn -e -s artifactory-settings.xml jar:jar deploy:deploy
           """
