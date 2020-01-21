@@ -1,3 +1,4 @@
+@Library("shared-starter") _
 pipeline {
   agent {
     kubernetes {
@@ -15,6 +16,9 @@ spec:
 """
     }
   }
+  environment {
+    ARTIFACTORY_MAVEN = credentials("artifactory-maven")
+  }
   stages {
     stage("pre-build") {
       when {
@@ -31,6 +35,7 @@ spec:
     stage("build") {
       steps {
         container("maven") {
+          createArtifactoryMavenSettingsFile()
           sh """
             mvn clean install -DskipTests=true
           """
