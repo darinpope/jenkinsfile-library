@@ -1,3 +1,4 @@
+@Library("shared-starter") _
 def event = ''
 def myCoolKey = ''
 pipeline {
@@ -52,9 +53,9 @@ spec:
                 }
 
                 echo "****************************************"
-                echo "extracted value for event: " + event
-                echo "extracted value for firstName: " + firstName
-                echo "extracted value for lastName: " + lastName
+                echo "extracted value for event: " + getEventValue(key:"event")
+                echo "extracted value for firstName: " + getEventValue(key:"firstname")
+                echo "extracted value for lastName: " + getEventValue(key:"lastName")
                 echo "****************************************"
             }
         }
