@@ -54,7 +54,7 @@ spec:
 
                 echo "****************************************"
                 echo "extracted value for event: " + getEventValue(key:"event")
-                echo "extracted value for firstName: " + getEventValue(key:"firstname")
+                echo "extracted value for firstName: " + getEventValue(key:"firstName")
                 echo "extracted value for lastName: " + getEventValue(key:"lastName")
                 echo "****************************************"
             }
