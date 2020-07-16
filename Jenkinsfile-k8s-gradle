@@ -20,17 +20,7 @@ spec:
           steps {
               container("gradle") {
                   sh """
-                    gradle clean build
-                  """
-              }
-          }
-      }
-      stage("test") {
-          steps {
-              container("gradle") {
-                  sh """
-                    gradle test
-                    find . -type f -name "*.xml"
+                    gradle clean check
                   """
               }
           }
