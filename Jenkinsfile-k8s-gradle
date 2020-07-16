@@ -1,0 +1,38 @@
+pipeline {
+    agent {
+    kubernetes {
+      label 'gradle'
+      yaml """
+apiVersion: v1
+kind: Pod
+spec:
+  containers:
+  - name: gradle
+    image: gradle:latest
+    command:
+    - cat
+    tty: true
+"""
+    }
+  }
+    stages {
+      stage("build") {
+          steps {
+              container("gradle") {
+                  sh """
+                    gradle clean build
+                  """
+              }
+          }
+      }
+      stage("test") {
+          steps {
+              container("gradle") {
+                  sh """
+                    gradle test
+                  """
+              }
+          }
+      }
+    }
+}
