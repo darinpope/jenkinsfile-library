@@ -37,6 +37,7 @@ spec:
     }
     post {
         always {
+            find . -type f -name "*.xml"
             junit testResults: '**/test-reports/**/TEST-*.xml'
 
             recordIssues enabledForFailure: true, tool: checkStyle()
