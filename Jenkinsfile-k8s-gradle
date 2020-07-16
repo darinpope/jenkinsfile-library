@@ -38,7 +38,7 @@ spec:
     }
     post {
         always {
-            junit testResults: '**/test-reports/**/TEST-*.xml'
+            junit testResults: "**/test-results/test/TEST-*.xml"
 
             recordIssues enabledForFailure: true, tool: checkStyle()
             recordIssues enabledForFailure: true, tool: spotBugs()
