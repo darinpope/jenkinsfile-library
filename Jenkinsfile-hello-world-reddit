@@ -5,7 +5,8 @@ pipeline {
         stage("Run script") {
             steps {
                 sh """
-                   ./legacy-scripts/hello-world.sh
+                   cd /home/pi/legacy-scripts
+                   ./hello-world.sh
                 """
             }
         }
