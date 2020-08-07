@@ -1,5 +1,5 @@
 pipeline {
-  agent { label "mvn-jfrog-simple" }
+  agent { label "mvn-jfrog-defined-on-oc" }
   stages {
     stage("build") {
       steps {
