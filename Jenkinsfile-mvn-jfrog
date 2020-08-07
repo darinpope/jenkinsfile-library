@@ -1,0 +1,43 @@
+pipeline {
+  agent {
+    kubernetes {
+      label 'mvn-jfrog'
+      yaml """
+apiVersion: v1
+kind: Pod
+spec:
+  containers:
+  - name: maven
+    image: maven:3.6.3-jdk-8
+    command:
+    - cat
+    tty: true
+  - name: jfrog
+    image: docker.bintray.io/jfrog/jfrog-cli-go:1.38.3
+    command:
+    - cat
+    tty: true
+"""
+    }
+  }
+  stages {
+    stage("build") {
+      steps {
+        container("maven") {
+          sh """
+            mvn --version
+          """
+        }            
+      }
+    }
+    stage("deploy") {
+      steps {
+        container("jfrog") {
+          sh """
+            jfrog --version
+          """
+        }
+      }
+    }
+  }
+}
