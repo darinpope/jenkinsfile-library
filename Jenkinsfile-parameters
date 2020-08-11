@@ -13,11 +13,11 @@ pipeline {
         sh """
           uname -a
           java -version
-          echo $TEST_STRING
-          echo $TEST_TEXT
-          echo $TEST_BOOLEAN
-          echo $TEST_CHOICE
-          echo $TEST_PASSWORD
+          echo "$TEST_STRING"
+          echo "$TEST_TEXT"
+          echo "$TEST_BOOLEAN"
+          echo "$TEST_CHOICE"
+          echo "$TEST_PASSWORD"
         """
       }
     }
