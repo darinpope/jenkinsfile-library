@@ -1,0 +1,14 @@
+pipeline {
+    agent { label "linux" }
+
+    stages {
+        stage("Run script") {
+            steps {
+                sh """
+                   cd /home/pi/legacy-scripts
+                   ./hello-world.sh
+                """
+            }
+        }
+    }
+}

@@ -1,0 +1,31 @@
+node("agent1") {
+  stage('Back-end') {
+    docker.image('maven:3-alpine').inside {
+      sh """
+        mvn --version
+        echo "my cool file" > file1.txt
+      """
+    }
+  }
+  stage('Front-end') {
+    docker.image('node:7-alpine').inside {
+      sh """
+        ls -l
+        cat file1.txt
+        node --version
+        echo "my next file" > file2.txt
+      """
+    }
+  }
+  stage('Artifactory') {
+    sh "docker pull docker.bintray.io/jfrog/jfrog-cli-go:latest"
+    docker.image('docker.bintray.io/jfrog/jfrog-cli-go:latest').inside() {            
+      sh """
+        ls -l
+        cat file1.txt
+        cat file2.txt
+        jfrog -v
+      """
+    }
+  }
+}

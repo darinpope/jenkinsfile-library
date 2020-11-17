@@ -1,0 +1,3 @@
+@Library('shared-starter') _
+pipelineLoadYamlFile {
+}

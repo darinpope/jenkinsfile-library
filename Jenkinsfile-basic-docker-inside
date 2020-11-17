@@ -1,0 +1,49 @@
+pipeline {
+    agent none
+    stages {
+        stage('Back-end') {
+            agent {
+                docker {
+                    image 'maven:3-alpine'
+                }
+            }
+            steps {
+              sh """
+                mvn --version
+                echo "my cool file" > file1.txt
+              """
+            }
+        }
+        stage('Front-end') {
+            agent {
+                docker {
+                    image 'node:7-alpine'
+                }
+            }
+            steps {
+              sh """
+                ls -l
+                cat file1.txt
+                node --version
+                echo "my next file" > file2.txt
+              """
+            }
+        }
+        stage('Artifactory') {
+            agent {
+                docker {
+                    image 'docker.bintray.io/jfrog/jfrog-cli-go:latest'
+                    alwaysPull true
+                }
+            }
+            steps {
+              sh """
+                ls -l
+                cat file1.txt
+                cat file2.txt
+                jfrog -v
+              """
+            }
+        }
+    }
+}

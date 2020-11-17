@@ -1,0 +1,23 @@
+pipeline {
+  agent { label "mvn-jfrog-defined-on-oc" }
+  stages {
+    stage("build") {
+      steps {
+        container("maven") {
+          sh """
+            mvn --version
+          """
+        }            
+      }
+    }
+    stage("deploy") {
+      steps {
+        container("jfrog") {
+          sh """
+            jfrog --version
+          """
+        }
+      }
+    }
+  }
+}

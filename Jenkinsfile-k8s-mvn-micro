@@ -1,0 +1,79 @@
+@Library("shared-starter") _
+pipeline {
+  agent {
+    kubernetes {
+      label 'mvn-jfrog'
+      yaml """
+apiVersion: v1
+kind: Pod
+spec:
+  containers:
+  - name: maven
+    image: maven:3.6.3-jdk-8
+    command:
+    - cat
+    tty: true
+"""
+    }
+  }
+  environment {
+    ARTIFACTORY_MAVEN=credentials("artifactory-maven")
+  }
+  options {
+    durabilityHint('PERFORMANCE_OPTIMIZED')
+  }
+  stages {
+    stage("pre-build") {
+      when {
+        expression { return fileExists('jenkins/preBuild.sh') }
+      }
+      steps {
+        container("maven") {
+          sh """
+            ./jenkins/preBuild.sh
+          """
+        }
+      }
+    }
+    stage("build") {
+      steps {
+        container("maven") {
+          sh """
+            mvn clean install -DskipTests=true
+          """
+        }            
+      }
+    }
+    stage("post-build") {
+      when {
+        expression { return fileExists('jenkins/postBuild.sh') }
+      }
+      steps {
+        container("maven") {
+          sh """
+            ./jenkins/postBuild.sh
+          """
+        }
+      }
+    }
+    stage("test") {
+      steps {
+        container("maven") {
+          sh """
+            mvn test
+          """
+        }            
+      }
+    }
+    stage("deploy") {
+      steps {
+        container("maven") {
+          createArtifactoryMavenSettingsFile(id: "artifactory-lib-snapshots")
+          sh """
+            mvn -e -s artifactory-settings.xml jar:jar deploy:deploy
+          """
+        }            
+      }
+    }
+  }
+}

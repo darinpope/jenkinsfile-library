@@ -1,0 +1,25 @@
+pipeline {
+  agent { label "linux" }
+  parameters { 
+    string(name: "TEST_STRING", defaultValue: "staging", description: "This is for TEST_STRING") 
+    text(name: "TEST_TEXT", defaultValue: "One\nTwo\nThree\n", description: "This is for TEST_TEXT")
+    booleanParam(name: "TEST_BOOLEAN", defaultValue: true, description: "This is for TEST_BOOLEAN")
+    choice(name: "TEST_CHOICE", choices: ["one", "two", "three"], description: "This is TEST_CHOICE")
+    password(name: "TEST_PASSWORD", defaultValue: "SECRET", description: "This is TEST_PASSWORD")
+  }
+  stages {
+    stage("test") {
+      steps {
+        sh """
+          uname -a
+          java -version
+          echo "$params.TEST_STRING"
+          echo "$params.TEST_TEXT"
+          echo "$params.TEST_BOOLEAN"
+          echo "$params.TEST_CHOICE"
+          echo "$params.TEST_PASSWORD"
+        """
+      }
+    }
+  }
+}

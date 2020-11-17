@@ -1,0 +1,26 @@
+pipeline {
+    agent {
+        kubernetes {
+            label 'pub'
+               yaml """
+apiVersion: v1
+kind: Pod
+spec:
+  containers:
+  - name: maven
+    image: maven:3.6.3-jdk-8
+    command:
+    - cat
+    tty: true
+"""
+        }
+  }
+    stages {
+        stage('Example') {
+            steps {
+                echo 'sending helloWorld1'
+                publishEvent(event:jsonEvent('{"event":"helloWorld","firstName":"Darin","lastName":"Pope"}'),verbose: true)
+            }
+        }
+    }
+}

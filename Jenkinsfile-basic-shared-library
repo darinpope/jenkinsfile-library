@@ -1,0 +1,15 @@
+@Library("shared-library") _
+pipeline {
+  agent { label 'linux' }
+  stages {
+    stage("test") {
+      steps {
+        sh """
+          uname -a
+          java -version
+        """
+        helloWorld(name:"Cool Kid")
+      }
+    }
+  }
+}

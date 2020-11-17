@@ -1,0 +1,40 @@
+pipeline {
+    agent {
+    kubernetes {
+      label 'ant'
+      defaultContainer 'jnlp'
+      yaml """
+apiVersion: v1
+kind: Pod
+spec:
+  containers:
+  - name: ant
+    image: darinpope/ant:latest
+    command:
+    - cat
+    tty: true
+"""
+    }
+  }
+    stages {
+        stage("build") {
+            steps {
+                container("ant") {
+                    sh """
+                      ant -version
+                    """
+                }
+            }
+        }
+    }
+    post {
+      always {
+        emailext (
+          subject: "Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
+          body: """<p>Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
+            <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>""",
+          recipientProviders: [[$class: 'DevelopersRecipientProvider']]
+        )
+      }
+    }
+}

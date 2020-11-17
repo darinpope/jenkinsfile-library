@@ -1,14 +1,10 @@
 pipeline {
     agent {
     kubernetes {
-      label 'mypod'
-      defaultContainer 'jnlp'
+      label 'make'
       yaml """
 apiVersion: v1
 kind: Pod
-metadata:
-  labels:
-    some-label: some-label-value
 spec:
   containers:
   - name: gcc
@@ -22,8 +18,11 @@ spec:
     stages {
         stage("first") {
             steps {
-                container('gcc') {
-                    sh 'make'
+                container("gcc") {
+                    sh """
+                        make --version
+                        gcc --version
+                    """
                 }
             }
         }

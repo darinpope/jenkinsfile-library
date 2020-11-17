@@ -1,0 +1,64 @@
+def props = [:]
+
+node {
+  stage('Read parameters from version.properties'){
+    checkout scm
+    props = readProperties(file: 'version.properties')
+  }
+}
+
+pipeline {
+  agent {
+    kubernetes {
+      label "buildah"
+      yaml """
+apiVersion: v1
+kind: Pod
+metadata:
+  name: buildah
+spec:
+  containers:
+  - name: buildah
+    image: quay.io/buildah/stable:v1.11.4
+    command:
+    - cat
+    tty: true
+    securityContext:
+      privileged: true
+    volumeMounts:
+      - name: varlibcontainers
+        mountPath: /var/lib/containers
+  volumes:
+    - name: varlibcontainers
+"""              
+    }
+  }
+  options {
+    buildDiscarder(logRotator(numToKeepStr: '3'))
+    durabilityHint('PERFORMANCE_OPTIMIZED')
+    disableConcurrentBuilds()
+  }
+  stages {
+    stage('Build with Buildah') {
+      steps {
+        container("buildah") {
+          sh """
+            buildah bud -t ${props["image"]}:${props["baseTag"]} .
+          """
+        }
+      }
+    }
+    stage("Extra Tag") {
+      when {
+        expression { return null != props["extraTag"] }
+      }
+      steps {
+        container("buildah") {
+          sh """
+            buildah tag ${props["image"]}:${props["baseTag"]} ${props["image"]}:${props["extraTag"]}
+          """
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,91 @@
+pipeline {
+  agent {
+    kubernetes {
+      label 'mvn-jfrog'
+      yaml """
+apiVersion: v1
+kind: Pod
+spec:
+  containers:
+  - name: maven
+    image: maven:3.6.3-jdk-8
+    command:
+    - cat
+    tty: true
+  - name: jfrog
+    image: docker.bintray.io/jfrog/jfrog-cli-go:1.31.0
+    command:
+    - cat
+    tty: true
+"""
+    }
+  }
+  stages {
+    stage("pre-build") {
+      when {
+        expression { return fileExists('jenkins/preBuild.sh') }
+      }
+      steps {
+        container("maven") {
+          sh """
+            ./jenkins/preBuild.sh
+          """
+        }
+      }
+    }
+    stage("build") {
+      steps {
+        container("maven") {
+          sh """
+            mvn --version
+          """
+        }            
+      }
+    }
+    stage("post-build") {
+      when {
+        expression { return fileExists('jenkins/postBuild.sh') }
+      }
+      steps {
+        container("maven") {
+          sh """
+            ./jenkins/postBuild.sh
+          """
+        }
+      }
+    }
+    stage("pre-deploy") {
+      when {
+        expression { return fileExists('jenkins/preDeploy.sh') }
+      }
+      steps {
+        container("jfrog") {
+          sh """
+            ./jenkins/preDeploy.sh
+          """
+        }
+      }
+    }
+    stage("deploy") {
+      steps {
+        container("jfrog") {
+          sh """
+            jfrog --version
+          """
+        }
+      }
+    }
+    stage("post-deploy") {
+      when {
+        expression { return fileExists('jenkins/postDeploy.sh') }
+      }
+      steps {
+        container("jfrog") {
+          sh """
+            ./jenkins/postDeploy.sh
+          """
+        }
+      }
+    }
+  }
+}

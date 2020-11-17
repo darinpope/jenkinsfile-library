@@ -1,0 +1,43 @@
+pipeline {
+    agent {
+    kubernetes {
+      label 'gradle'
+      yaml """
+apiVersion: v1
+kind: Pod
+spec:
+  containers:
+  - name: gradle
+    image: gradle:6.5.1
+    command:
+    - cat
+    tty: true
+"""
+    }
+  }
+    stages {
+      stage("build") {
+          steps {
+              container("gradle") {
+                  sh """
+                    gradle clean check
+                  """
+              }
+          }
+      }
+    }
+    post {
+        always {
+            junit testResults: "**/test-results/test/TEST-*.xml"
+
+            recordIssues(
+                enabledForFailure: true, 
+                qualityGates: [[threshold: 1, type: 'TOTAL', unstable: true]], 
+                tools: [checkStyle(pattern: '**/build/reports/checkstyle/*.xml')]
+            )
+            //recordIssues enabledForFailure: true, tool: spotBugs()
+            //recordIssues enabledForFailure: true, tool: cpd(pattern: '**/target/cpd.xml')
+            //recordIssues enabledForFailure: true, tool: pmdParser(pattern: '**/target/pmd.xml')
+        }
+    }
+}
