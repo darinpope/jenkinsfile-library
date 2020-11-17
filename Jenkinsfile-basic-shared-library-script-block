@@ -1,0 +1,22 @@
+@Library("shared-library") _
+def returnedValue = null
+pipeline {
+  agent any
+  stages {
+    stage("read value") {
+      steps {
+        script {
+          returnedValue = getPropertyValueFromResources(fileName:"test.properties",key:"foo")
+        }
+      }
+    }
+    stage("echo value") {
+      when {
+        equals(expected:"bar",actual:returnedValue)
+      }
+      steps {
+        echo "found bar as the value for foo"
+      }
+    }
+  }
+}
