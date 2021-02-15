@@ -14,10 +14,11 @@ pipeline {
     stages {
         stage("test") {
             steps {
-                script {
+                container("maven"){
                     triggerCdPipeline(name:"${NAME}", pipelineName:"ktest", configuration:"TITrainingServer", projectName:"Training_kmurray")
                 }
             }
         }
     }
 }
+
