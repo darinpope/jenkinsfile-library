@@ -35,7 +35,6 @@ pipeline {
                     event = currentBuild.getBuildCauses()[0]?.event?.event?.toString()
                     myCoolKey = currentBuild.getBuildCauses()[0]?.event?.myCoolKey?.toString()
                 }
-
                 echo "****************************************"
                 echo "extracted value for event: " + event
                 echo "extracted value for myCoolKey: " + myCoolKey

@@ -1,0 +1,14 @@
+#!/usr/bin/groovy
+@Library('github.com/kmurrayAtCloudbees/jenkinsfile-library/github-api-global-lib@master') _
+stage('stage1') {
+node() {
+    echo "Starting"
+    try {
+        sleep 5
+        triggerCdPipeline()
+    } catch (Exception ex) {
+        println ex.printStackTrace()
+    }
+    echo "Finishing"
+}
+}
