@@ -1,14 +1,24 @@
 #!/usr/bin/groovy
-@Library('github.com/kmurrayAtCloudbees/jenkinsfile-library/github-api-global-lib@master') _
-stage('stage1') {
-node() {
-    echo "Starting"
-    try {
-        sleep 5
-        triggerCdPipeline()
-    } catch (Exception ex) {
-        println ex.printStackTrace()
+@Library("kmurrayLib") _
+pipeline {
+    agent {
+        kubernetes {
+            label 'mypod'
+            containerTemplate {
+                name 'maven'
+                image 'maven:3.3.9-jdk-8-alpine'
+                ttyEnabled true
+                command 'cat'
+            }
+        }
     }
-    echo "Finishing"
-}
+    stages {
+        stage("test") {
+            steps {
+                script {
+                    triggerCdPipeline(name:"${NAME}", pipelineName:"ktest", configuration:"TITrainingServer", projectName:"Training_kmurray")
+                }
+            }
+        }
+    }
 }
