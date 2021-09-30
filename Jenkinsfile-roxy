@@ -19,7 +19,7 @@ pipeline {
     }
     stage('query roxy') {
       steps {
-          sh "curl http://localhost:${ROXY_LISTENER_PORT}/flag/myFlag"
+        sh "curl http://localhost:${ROXY_LISTENER_PORT}/flag/myFlag"
       }
     }
   }
