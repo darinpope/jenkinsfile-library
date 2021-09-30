@@ -1,0 +1,34 @@
+@Library('shared-library') _
+pipeline {
+  agent any
+  environment {
+    ROXY_CONTAINER_ID = getRoxyContainerId()
+    ROXY_LISTENER_PORT = getRoxyListenerPort()
+  }
+  stages {
+    stage('Test') {
+      steps {
+        sh 'env | sort'
+      }
+    }
+    stage('start roxy') {
+      steps {
+        sh "docker run --rm -d -p ${ROXY_LISTENER_PORT}:3333 --name ${ROXY_CONTAINER_ID} rollout/roxy:latest"
+        sh 'sleep 10'
+      }
+    }
+    stage('query roxy') {
+      steps {
+          sh "curl http://localhost:${ROXY_LISTENER_PORT}/flag/myFlag"
+      }
+    }
+  }
+  post {
+    always {
+      sh "docker stop ${ROXY_CONTAINER_ID}"
+      sh "docker ps"
+      sh "docker ps -a"
+      sh "docker images"
+    }
+  }
+}
