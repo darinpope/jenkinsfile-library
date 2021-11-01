@@ -1,0 +1,27 @@
+@Library('shared-library') _
+pipeline {
+    agent none
+    triggers {
+        eventTrigger jmespathQuery("webhookEvent=='jira:issue_updated'")
+    }
+    stages {
+        stage('Example') {
+            agent any
+            when {
+                triggeredBy "EventTriggerCause"
+                beforeAgent true
+            }
+            steps {
+                echo "****************************************"
+                echo "The class type that triggered this run: " + currentBuild?.getBuildCauses()[0]?._class?.toString()
+                echo "****************************************"
+
+                echo "****************************************"
+                echo "The full message received:"
+                echo groovy.json.JsonOutput.prettyPrint(currentBuild?.getBuildCauses()?.toString())
+                echo "****************************************"
+                jiraProcessChangeLogItems()
+           }
+        }
+    }
+}
