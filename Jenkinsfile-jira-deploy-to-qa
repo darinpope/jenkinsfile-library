@@ -1,0 +1,36 @@
+def component = ''
+def version = ''
+@Library('shared-library') _
+pipeline {
+    agent none
+    triggers {
+        eventTrigger jmespathQuery("event=='deploy-to-qa'")
+    }
+    stages {
+        stage('Example') {
+            agent any
+            when {
+                triggeredBy "EventTriggerCause"
+                beforeAgent true
+            }
+            steps {
+                echo "****************************************"
+                echo "The class type that triggered this run: " + currentBuild?.getBuildCauses()[0]?._class?.toString()
+                echo "****************************************"
+
+                echo "****************************************"
+                echo "The full message received:"
+                echo groovy.json.JsonOutput.prettyPrint(currentBuild?.getBuildCauses()?.toString())
+                echo "****************************************"
+                
+                script {
+                    component = currentBuild.getBuildCauses()[0]?.event?.component?.toString()
+                    version = currentBuild.getBuildCauses()[0]?.event?.version?.toString()
+                }
+
+                sh "echo deploy-to-qa for $component:$version"
+
+           }
+        }
+    }
+}
