@@ -3,10 +3,10 @@ pipeline {
   stages {
     stage("test") {
       steps {
-        sh """
+        sh '''
           uname -a
           java -version
-        """
+        '''
       }
     }
   }
