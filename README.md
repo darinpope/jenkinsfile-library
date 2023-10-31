@@ -1,1 +1,3 @@
 # jenkinsfile-library
+
+test-pr`
