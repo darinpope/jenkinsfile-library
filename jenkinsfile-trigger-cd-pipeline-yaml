@@ -1,0 +1,18 @@
+@Library("kmurrayLib") _
+pipeline {
+  agent {
+    kubernetes {
+      defaultContainer 'maven'
+      inheritFrom 'yaml-pod'
+      yaml libraryResource('podTemplates/kubernetespod.yaml')
+    }
+  }
+    stages {
+      stage("test") {
+        steps {
+          triggerCdPipeline(name:"${NAME}", pipelineName:"ktest", configuration:"TITrainingServer", projectName:"Training_kmurray")
+            }
+        }
+    }
+}
+

@@ -1,0 +1,18 @@
+
+pipeline {
+  agent {
+    kubernetes {
+      label 'yaml-pod'
+      defaultContainer 'maven'
+      yamlFile 'kubernetespod.yaml'
+    }
+  }
+
+  stages {
+    stage('Run maven') {
+      steps {
+        sh 'mvn -version'
+      }
+    }
+  }
+}

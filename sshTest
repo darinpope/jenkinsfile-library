@@ -1,0 +1,11 @@
+pipeline {
+   agent {label 'windows2'}
+   stages {
+      stage('Hello') {
+         steps {
+            echo 'Hello World'
+            powershell ('''gci env:''')
+         }
+      }
+   }
+}

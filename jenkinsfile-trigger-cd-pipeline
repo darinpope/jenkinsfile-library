@@ -1,0 +1,24 @@
+@Library("kmurrayLib") _
+pipeline {
+    agent {
+        kubernetes {
+            label 'mypod'
+            containerTemplate {
+                name 'maven'
+                image 'maven:3.3.9-jdk-8-alpine'
+                ttyEnabled true
+                command 'cat'
+            }
+        }
+    }
+    stages {
+        stage("test") {
+            steps {
+                container("maven"){
+                    triggerCdPipeline(name:"${NAME}", pipelineName:"ktest", configuration:"TITrainingServer", projectName:"Training_kmurray")
+                }
+            }
+        }
+    }
+}
+

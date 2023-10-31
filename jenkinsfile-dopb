@@ -1,0 +1,16 @@
+node {
+    stage ('checkout') {
+        checkout scm
+    }
+    stage ('build') {
+        copyArtifacts projectName: 'devopticsa'
+        gateConsumesArtifact file: 'plugin-a.txt'
+       sh "git rev-parse HEAD > plugin-b.txt"
+
+        archiveArtifacts artifacts: 'plugin-b.txt'
+    }
+    stage ('produce') {
+        // Notify DevOptics that this run produced plugin-b.txt
+        gateProducesArtifact file: 'plugin-b.txt'
+    }
+}

@@ -1,0 +1,15 @@
+node {
+    stage ('checkout') {
+        checkout scm
+    }
+    stage ('build') {
+
+        sh "git rev-parse HEAD > plugin-a.txt"
+
+        archiveArtifacts artifacts: 'plugin-a.txt'
+    }
+    stage ('produce') {
+        // Notify DevOptics that this run produced plugin-a.txt
+        gateProducesArtifact file: 'plugin-a.txt'
+    }
+}

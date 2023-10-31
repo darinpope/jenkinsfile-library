@@ -1,0 +1,13 @@
+pipeline {
+  agent {label 'windows2'}
+  stages {
+    stage("build") {
+      steps {
+        sh """
+          ./gradlew clean build
+          ls -l build/libs
+        """
+      }
+    }
+  }
+}

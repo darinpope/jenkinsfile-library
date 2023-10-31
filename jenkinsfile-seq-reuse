@@ -1,0 +1,202 @@
+pipeline {
+    agent none
+    options {
+        disableConcurrentBuilds()
+    }
+    stages {
+        stage('Build') {
+            parallel {
+                stage('Java 11') {
+                    agent {
+                        kubernetes {
+                            idleMinutes 5
+                            label "jxmavenlib-jdk11-b${BUILD_NUMBER}"
+                            yaml """
+spec:
+  containers:
+  - name: maven11
+    image: maven:3-jdk-11
+    command: ['cat']
+    tty: true
+    volumeMounts:
+      - name: maven-cache
+        mountPath: /root/.m2/repository
+      - name: build-cache
+        mountPath: /tmp/cache
+  volumes:
+    - name: maven-cache
+      hostPath:
+        path: /tmp
+        type: Directory
+    - name: build-cache
+      persistentVolumeClaim:
+        claimName: azure-managed-disk
+"""
+                        }
+                    }
+                    steps {
+                        git 'https://github.com/joostvdg/jx-maven-lib.git'
+                        container('maven11') {
+                            sh 'mvn -V -e -C verify'
+                            sh 'cp -R target/ /tmp/cache/'
+                            sh 'ls -lath /tmp/cache/'
+                        }
+                    }
+                }
+                stage('Java 13') {
+                    agent {
+                        kubernetes {
+                            idleMinutes 5
+                            label "jxmavenlib-jdk13-b${BUILD_NUMBER}"
+                            yaml """
+spec:
+  containers:
+  - name: maven13
+    image: maven:3-jdk-13
+    command: ['cat']
+    tty: true
+    volumeMounts:
+      - name: maven-cache
+        mountPath: /root/.m2/repository
+  volumes:
+    - name: maven-cache
+      hostPath:
+        path: /tmp
+        type: Directory
+"""
+                        }
+                    }
+                    steps {
+                        git 'https://github.com/joostvdg/jx-maven-lib.git'
+                        container('maven13') {
+                            sh 'mvn -V -e -C -Pjava13 verify'
+                        }
+                    }
+                }
+            }
+        }
+        stage('Test') {
+            parallel {
+                stage('Java 11') {
+                    agent {
+                        kubernetes {
+                            idleMinutes 5
+                            label "jxmavenlib-jdk11-b${BUILD_NUMBER}"
+                            yaml """
+spec:
+  containers:
+  - name: maven11
+    image: maven:3-jdk-11
+    command: ['cat']
+    tty: true
+    volumeMounts:
+      - name: maven-cache
+        mountPath: /root/.m2/repository
+      - name: build-cache
+        mountPath: /tmp/cache
+  volumes:
+    - name: maven-cache
+      hostPath:
+        path: /tmp
+        type: Directory
+    - name: build-cache
+      persistentVolumeClaim:
+        claimName: azure-managed-disk
+"""
+                        }
+                    }
+                    stages {
+                        stage('Functional Tests') {
+                            steps {
+                                container('maven11') {
+                                    sh 'ls -lath /tmp/cache'
+                                    sh 'cp -R /tmp/cache/ .'
+                                    sh 'ls -lath'
+                                }
+                            }
+                        }
+                        stage('API Contract Tests') {
+                            steps {
+                                echo 'Hello'
+                            }
+                        }
+                        stage('Performance Tests') {
+                            when {
+                                branch 'master'
+                            }
+                            steps {
+                                echo 'Hello'
+                            }
+                        }
+                    }
+                }
+                stage('Java 13') {
+                    agent {
+                        kubernetes {
+                            idleMinutes 5
+                            label "jxmavenlib-jdk13-b${BUILD_NUMBER}"
+                            yaml """
+spec:
+  containers:
+  - name: maven13
+    image: maven:3-jdk-13
+    command: ['cat']
+    tty: true
+    volumeMounts:
+      - name: maven-cache
+        mountPath: /root/.m2/repository
+  volumes:
+    - name: maven-cache
+      hostPath:
+        path: /tmp
+        type: Directory
+"""
+                        }
+                    }
+                    stages {
+                        stage('Functional Tests') {
+                            steps {
+                               container('maven13') {
+                                    sh 'ls -lath'
+                                }
+                            }
+                        }
+                        stage('API Contract Tests') {
+                            steps {
+                                echo 'Hello'
+                            }
+                        }
+                        stage('Performance Tests') {
+                            when {
+                                branch 'master'
+                            }
+                            steps {
+                                echo 'Hello'
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        stage('Deploy') {
+            agent {
+                kubernetes {
+                    label 'jxmavenlib-deployment'
+                    containerTemplate {
+                        name 'pl_deployment'
+                        image 'cloudbees/docker-java-with-docker-client'
+                        ttyEnabled true
+                        command 'cat'
+                    }
+                }
+            }
+            when {
+                branch 'master'
+                beforeAgent true
+            }
+            steps {
+                echo "hello"
+            }
+        }
+    }
+}
