@@ -1,0 +1,54 @@
+pipeline {
+    agent {
+    kubernetes {
+      yaml """
+apiVersion: v1
+kind: Pod
+spec:
+  containers:
+  - name: eclipse-temurin
+    image: eclipse-temurin:17-jdk
+    command:
+    - cat
+    tty: true
+"""
+    }
+  }
+    options {
+        timestamps()
+    }
+    stages {
+        stage('cleanWs') {
+            steps {
+                cleanWs()
+            }
+        }
+        stage('checkout') {
+            steps {
+                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/darinpope/java-web-app.git']])
+            }
+        }
+        stage('readCache') {
+            steps {
+                readCache name: 'mvn-cache'
+            }
+        }
+        stage('build') {
+            steps {
+                container('eclipse-temurin') {
+                    sh './mvnw clean verify -Dmaven.repo.local=./maven-repo -DskipTests'
+                }
+            }
+            post {
+                success {
+                    writeCache name: 'mvn-cache', includes: 'maven-repo/**'
+                }
+            }
+        }
+    }
+    post {
+        always {
+            cleanWs()
+        }
+    }
+}
